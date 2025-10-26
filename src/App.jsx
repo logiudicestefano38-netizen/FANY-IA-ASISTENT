@@ -16,6 +16,7 @@ const App = () => {
   const [tab, setTab] = useState("welcome");
   const [language, setLanguage] = useState("es");
   const [menuOpen, setMenuOpen] = useState(false);
+  const [testMode, setTestMode] = useState(false);
   React.useEffect(() => {
     window.setFanyTab = (t) => setTab(t);
   }, []);
@@ -181,6 +182,27 @@ const App = () => {
       lineNumber: 92,
       columnNumber: 7
     }),
+    testMode && /* @__PURE__ */ jsxDEV("div", { style: {
+      background: "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
+      color: "#fff",
+      padding: "8px 16px",
+      textAlign: "center",
+      fontSize: "14px",
+      fontWeight: "bold",
+      boxShadow: "0 2px 8px rgba(0,0,0,0.2)"
+    }, children: [
+      "🧪 MODO DE PRUEBA ACTIVADO",
+      " | ",
+      `Pestaña: ${tab}`,
+      " | ",
+      `Idioma: ${language}`,
+      " | ",
+      `Voz ID: ${window.fanyVoiceId || 'No configurada'}`
+    ] }, void 0, true, {
+      fileName: "<stdin>",
+      lineNumber: 94,
+      columnNumber: 7
+    }),
     /* @__PURE__ */ jsxDEV("main", { className: "main-content", children: /* @__PURE__ */ jsxDEV("div", { className: "content-wrapper", children: /* @__PURE__ */ jsxDEV(TabComponent, { currentTab: tab }, void 0, false, {
       fileName: "<stdin>",
       lineNumber: 98,
@@ -271,6 +293,29 @@ const App = () => {
           ] }, void 0, true, {
             fileName: "<stdin>",
             lineNumber: 125,
+            columnNumber: 15
+          }),
+          /* @__PURE__ */ jsxDEV("div", { className: "menu-section", children: [
+            /* @__PURE__ */ jsxDEV("h5", { children: "Modo de Prueba" }, void 0, false, {
+              fileName: "<stdin>",
+              lineNumber: 132,
+              columnNumber: 17
+            }),
+            /* @__PURE__ */ jsxDEV("button", { className: `ghost ${testMode ? "active" : ""}`, onClick: () => {
+              setTestMode(!testMode);
+            }, children: testMode ? "🧪 Modo Prueba: Activado" : "🧪 Modo Prueba: Desactivado" }, void 0, false, {
+              fileName: "<stdin>",
+              lineNumber: 133,
+              columnNumber: 17
+            }),
+            /* @__PURE__ */ jsxDEV("div", { className: "small", style: { marginTop: 8 }, children: "Activa el modo de prueba para ver información de depuración y estado del sistema." }, void 0, false, {
+              fileName: "<stdin>",
+              lineNumber: 136,
+              columnNumber: 17
+            })
+          ] }, void 0, true, {
+            fileName: "<stdin>",
+            lineNumber: 131,
             columnNumber: 15
           }),
           /* @__PURE__ */ jsxDEV("div", { className: "menu-section", children: [
