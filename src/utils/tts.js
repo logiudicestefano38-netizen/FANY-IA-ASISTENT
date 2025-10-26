@@ -20,12 +20,12 @@ export const speak = async (text) => {
       const result = await window.websim.textToSpeech({ text, voice: window.fanyVoiceId });
       const audio = new Audio(result.url);
       audio.playsInline = true;
-      await audio.play().catch(() => {});
       // Clean up audio reference after playback
       audio.onended = () => {
         audio.src = '';
         audio.load();
       };
+      await audio.play().catch(() => {});
       return;
     } catch (e) {
       console.warn("TTS (custom voice) falló, usando síntesis local.", e);
