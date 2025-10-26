@@ -1,0 +1,93 @@
+:root {
+  --bg: #1C1C1C; /* Dark Gray / Near Black */
+  --text: #E0E0E0; /* Light Text */
+  --muted: #888888;
+  --accent: #E91E63; /* Dark Pink */
+  --accent-hover: #FF4081;
+  --sidebar-bg: #0F0F0F; /* Even darker for sidebar */
+  --input-bg: #282828;
+  --card-bg: #242424;
+  --radius: 12px;
+  --glow-primary: #C2185B; /* Dark Pink for borders */
+  --glow-secondary: #0A0A0A; /* Very Dark Black */
+  --glow-strong: rgba(194,24,91,0.8);
+  --glow-soft: rgba(194,24,91,0.4);
+  --glow-ultra: rgba(194,24,91,1);
+}
+
+* { box-sizing: border-box; }
+html, body, #app { height: 100%; }
+body {
+  margin: 0;
+  font-family: "Noto Sans", system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.5;
+  text-shadow: 0 0 12px var(--glow-soft), 0 0 6px rgba(194,24,91,0.2), 0 0 3px rgba(0,0,0,0.8);
+  animation: textGlow 2s ease-in-out infinite alternate;
+}
+
+@keyframes textGlow {
+  0% { text-shadow: 0 0 12px var(--glow-soft), 0 0 6px rgba(194,24,91,0.2), 0 0 3px rgba(0,0,0,0.8); }
+  100% { text-shadow: 0 0 20px var(--glow-strong), 0 0 10px var(--glow-ultra), 0 0 5px rgba(0,0,0,1); }
+}
+
+/* Utility */
+.small { font-size: 12px; color: var(--muted); }
+
+/* Basic element styles */
+input, textarea, select {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid #444;
+  border-radius: var(--radius);
+  background: var(--input-bg);
+  color: var(--text);
+}
+
+textarea { min-height: 120px; }
+
+button {
+  padding: 10px 14px;
+  border: 1px solid var(--accent);
+  background: var(--accent);
+  color: #fff;
+  border-radius: var(--radius);
+  cursor: pointer;
+  transition: background 0.2s, border-color 0.2s;
+}
+button:hover {
+    background: var(--accent-hover);
+    border-color: var(--accent-hover);
+}
+
+button.ghost {
+  background: transparent;
+  color: var(--accent);
+  border-color: #444;
+}
+button.ghost:hover {
+    background: #333;
+    border-color: var(--accent-hover);
+    color: var(--accent-hover);
+}
+
+.card {
+  border: 1px solid #333;
+  background: var(--card-bg);
+  border-radius: var(--radius);
+  padding: 16px;
+  margin-bottom: 16px;
+}
+
+.row { display: grid; gap: 16px; }
+
+h1, h2, h3, h4, h5, h6 {
+  text-shadow: 0 0 18px var(--glow-strong), 0 0 10px var(--glow-ultra), 0 0 5px rgba(0,0,0,0.9);
+  animation: headingGlow 1.5s ease-in-out infinite alternate;
+}
+
+@keyframes headingGlow {
+  0% { text-shadow: 0 0 18px var(--glow-strong), 0 0 10px var(--glow-ultra), 0 0 5px rgba(0,0,0,0.9); }
+  100% { text-shadow: 0 0 28px var(--glow-ultra), 0 0 16px var(--glow-strong), 0 0 8px rgba(0,0,0,1); }
+}
