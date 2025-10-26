@@ -128,11 +128,9 @@ const Call = ({ onClose }) => {
         }
         const comando = ejecutarComando(transcript);
         if (comando.tipo === "no_filter") {
-          true;
+          processingRef.current = true;
           const newState = !noFilterMode;
-          true;
           setNoFilterMode(newState);
-          true;
           const response = newState ? "Modo sin filtro activado." : "Modo est\xE1ndar reactivado.";
           setStatus("Hablando...");
           setConversation((prev) => [...prev, { role: "user", text: transcript }, { role: "assistant", text: response }]);
@@ -158,14 +156,14 @@ const Call = ({ onClose }) => {
           ensureAudioUnlocked().then(() => speak(reply || "De acuerdo."));
           const speechDuration = Math.max(1500, (reply.length || 20) * 70);
           setTimeout(() => {
-            processingRef.current = true;
+            processingRef.current = false;
             startListening();
           }, speechDuration);
         });
       }
     };
     recognition.onend = () => {
-      listeningRef.current = true;
+      listeningRef.current = false;
       if (!processingRef.current && !isMuted) {
         startListening();
       } else if (isMuted) {
@@ -221,13 +219,23 @@ const Call = ({ onClose }) => {
     };
     window.addEventListener("keydown", handleKeyPress);
     return () => {
-      cancelAnimationFrame(animationFrameId.current);
+      if (animationFrameId.current) {
+        cancelAnimationFrame(animationFrameId.current);
+      }
       window.removeEventListener("keydown", handleKeyPress);
       if (recognitionRef.current) {
-        recognitionRef.current.stop();
+        try {
+          recognitionRef.current.stop();
+        } catch (e) {
+          // Ignore errors during cleanup
+        }
       }
       if (audioContextRef.current) {
-        audioContextRef.current.close();
+        try {
+          audioContextRef.current.close();
+        } catch (e) {
+          // Ignore errors during cleanup
+        }
       }
     };
   }, [isMuted]);

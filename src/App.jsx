@@ -42,6 +42,11 @@ const App = () => {
           const audio = new Audio("/voz_fany_bienvenida.mp3");
           audio.play().catch(() => {
           });
+          // Clean up audio reference after playback
+          audio.onended = () => {
+            audio.src = '';
+            audio.load();
+          };
         } catch {
         }
       });

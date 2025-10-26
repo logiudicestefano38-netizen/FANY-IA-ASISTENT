@@ -21,6 +21,11 @@ export const speak = async (text) => {
       const audio = new Audio(result.url);
       audio.playsInline = true;
       await audio.play().catch(() => {});
+      // Clean up audio reference after playback
+      audio.onended = () => {
+        audio.src = '';
+        audio.load();
+      };
       return;
     } catch (e) {
       console.warn("TTS (custom voice) falló, usando síntesis local.", e);
