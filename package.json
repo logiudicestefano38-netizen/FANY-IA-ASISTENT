@@ -1,0 +1,50 @@
+{
+  "name": "fany-ia-asistent",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Asistente Virtual de élite con IA - Creado por Stefany Lo giudice",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "serve": "python3 -m http.server 5173",
+    "check:attribution": "node ./scripts/check_attribution.js",
+    "test:diagnostics": "echo 'Abre http://localhost:5173 y ejecuta window.openFanyDiagnostics() en la consola del navegador'",
+    "install:all": "npm install && cd mi-proyecto && npm install && cd ../mi-proyecto-1 && npm install",
+    "clean": "rm -rf dist node_modules mi-proyecto/node_modules mi-proyecto-1/node_modules",
+    "docs": "echo 'Ver README.md, QUICKSTART.md, API.md, CONTRIBUTING.md'"
+  },
+  "keywords": [
+    "ai",
+    "assistant",
+    "chatbot",
+    "llm",
+    "react",
+    "websearch",
+    "tts",
+    "voice",
+    "puerto-rico",
+    "stefany-logiudice"
+  ],
+  "author": {
+    "name": "Stefany Lo giudice",
+    "email": "contacto@ejemplo.com"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/USUARIO/FANY-IA-ASISTENT.git"
+  },
+  "bugs": {
+    "url": "https://github.com/USUARIO/FANY-IA-ASISTENT/issues"
+  },
+  "homepage": "https://github.com/USUARIO/FANY-IA-ASISTENT#readme",
+  "license": "MIT",
+  "devDependencies": {
+    "vite": "^5.0.0"
+  },
+  "engines": {
+    "node": ">=18.0.0",
+    "npm": ">=9.0.0"
+  }
+}

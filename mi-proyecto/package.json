@@ -1,0 +1,27 @@
+{
+  "name": "mi-proyecto",
+  "version": "1.0.0",
+  "description": "Este es un proyecto de ejemplo utilizando TypeScript.",
+  "main": "src/app.ts",
+  "scripts": {
+    "build": "tsc",
+    "start": "node dist/app.js",
+    "dev": "ts-node src/app.ts"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "typescript": "^4.5.0",
+    "ts-node": "^10.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tuusuario/mi-proyecto.git"
+  },
+  "keywords": [],
+  "author": "Tu Nombre",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/tuusuario/mi-proyecto/issues"
+  },
+  "homepage": "https://github.com/tuusuario/mi-proyecto#readme"
+}

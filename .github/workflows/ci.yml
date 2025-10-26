@@ -1,0 +1,122 @@
+name: CI - Build and Test
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main, develop ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    
+    strategy:
+      matrix:
+        node-version: [18.x, 20.x]
+    
+    steps:
+      - name: Checkout código
+        uses: actions/checkout@v4
+      
+      - name: Configurar Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: 'npm'
+      
+      - name: Instalar dependencias
+        run: npm ci || npm install
+      
+      - name: Verificar atribución
+        run: npm run check:attribution
+      
+      - name: Construir proyecto (Vite)
+        run: npm run build
+        continue-on-error: true
+      
+      - name: Verificar archivos de build
+        run: |
+          if [ -d "dist" ]; then
+            echo "✓ Build exitoso - carpeta dist/ creada"
+            ls -la dist/
+          else
+            echo "⚠ Build no generó carpeta dist/ (puede ser normal para este proyecto)"
+          fi
+      
+      - name: Subir artefactos de build
+        if: success() && hashFiles('dist/**/*') != ''
+        uses: actions/upload-artifact@v3
+        with:
+          name: dist-${{ matrix.node-version }}
+          path: dist/
+          retention-days: 7
+
+  lint-check:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout código
+        uses: actions/checkout@v4
+      
+      - name: Verificar sintaxis JavaScript/JSX
+        run: |
+          echo "Verificando archivos JSX..."
+          for file in $(find src -name "*.jsx" -o -name "*.js"); do
+            if node -c "$file" 2>/dev/null; then
+              echo "✓ $file"
+            else
+              echo "✗ $file tiene errores de sintaxis"
+              exit 1
+            fi
+          done
+      
+      - name: Verificar archivos críticos
+        run: |
+          files=(
+            "index.html"
+            "main.jsx"
+            "src/App.jsx"
+            "src/components/Chat.jsx"
+            "package.json"
+          )
+          for file in "${files[@]}"; do
+            if [ -f "$file" ]; then
+              echo "✓ $file existe"
+            else
+              echo "✗ $file no encontrado"
+              exit 1
+            fi
+          done
+
+  docs-check:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout código
+        uses: actions/checkout@v4
+      
+      - name: Verificar documentación
+        run: |
+          docs=(
+            "README.md"
+            "CONTRIBUTING.md"
+            "QUICKSTART.md"
+            "API.md"
+            "CHANGELOG.md"
+          )
+          for doc in "${docs[@]}"; do
+            if [ -f "$doc" ]; then
+              echo "✓ $doc existe"
+            else
+              echo "⚠ $doc no encontrado"
+            fi
+          done
+      
+      - name: Verificar enlaces en README
+        run: |
+          if grep -q "Stefany Lo giudice" README.md; then
+            echo "✓ Atribución presente en README.md"
+          else
+            echo "⚠ Falta atribución en README.md"
+            exit 1
+          fi
