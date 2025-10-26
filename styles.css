@@ -1,0 +1,9 @@
+/* styles.css
+   This file was refactored to import smaller modular styles.
+   Tombstone for removed large stylesheet content:
+   // removed large stylesheet moved to styles/base.css, styles/layout.css, styles/components.css
+*/
+@import "./styles/base.css";
+@import "./styles/layout.css";
+@import "./styles/components.css";
+
