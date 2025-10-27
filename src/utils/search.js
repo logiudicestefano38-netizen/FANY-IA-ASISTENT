@@ -1,3 +1,6 @@
+// Import weather module
+import { getWeatherForCityIA } from './weatherIA.js';
+
 // Web search utility for Fany IA
 export const searchWeb = async (query) => {
   try {
@@ -31,37 +34,6 @@ export const searchWeb = async (query) => {
   } catch (error) {
     console.error("Search error:", error);
     return { results: [] };
-  }
-};
-
-// --- OpenWeatherMap Integration ---
-const OPENWEATHER_API_KEY = "37ebe063998faf5df1df4da296ca08cf";
-
-const getWeatherForCity = async (city) => {
-  if (!city) return null;
-  // Using 'US' for better coverage, OpenWeatherMap often figures it out.
-  const url = `https://api.openweathermap.org/data/2.5/weather?q=${city},US&appid=${OPENWEATHER_API_KEY}&units=metric&lang=es`;
-  
-  try {
-    const response = await fetch(url);
-    const data = await response.json();
-
-    if (response.status !== 200) {
-      const msg = data.message || "ciudad no encontrada o error de servicio.";
-      console.warn("Weather API error:", msg);
-      return `⚠️ No se pudo obtener el clima para ${city}. Razón: ${msg}`;
-    }
-
-    const temp = data.main.temp;
-    const description = data.weather[0].description;
-    const humidity = data.main.humidity;
-    const wind = data.wind.speed;
-
-    return `📍 Clima en ${data.name} (${data.sys.country}):\n🌡️ Temperatura: ${temp}°C\n🌥️ Condición: ${description}\n💧 Humedad: ${humidity}%\n💨 Viento: ${wind} m/s`;
-
-  } catch (error) {
-    console.error("Fetch error during weather request:", error);
-    return "⚠️ Error de conexión al servicio de clima.";
   }
 };
 
@@ -174,7 +146,8 @@ export const buscarConComandos = async (query) => {
   
   if (comando.tipo === 'clima') {
       const cityQuery = comando.data?.city || 'Miami, FL';
-      const weatherText = await getWeatherForCity(cityQuery);
+      // Use the new weatherIA module for better, free weather data
+      const weatherText = await getWeatherForCityIA(cityQuery);
       
       const results = [{
           title: `Reporte de Clima`,
