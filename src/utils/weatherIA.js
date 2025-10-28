@@ -20,7 +20,13 @@ export const getWeatherForCityIA = async (city, userName = "usuario") => {
     const { latitude, longitude, name, country } = location;
 
     // Paso 2: Obtener datos del clima usando Open-Meteo
-    const weatherUrl = `https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&current=temperature_2m,relative_humidity_2m,weather_code,wind_speed_10m,wind_direction_10m&timezone=auto`;
+    const weatherParams = new URLSearchParams({
+      latitude: latitude,
+      longitude: longitude,
+      current: 'temperature_2m,relative_humidity_2m,weather_code,wind_speed_10m,wind_direction_10m',
+      timezone: 'auto'
+    });
+    const weatherUrl = `https://api.open-meteo.com/v1/forecast?${weatherParams}`;
     
     const weatherRes = await fetch(weatherUrl);
     const weatherData = await weatherRes.json();
@@ -56,7 +62,15 @@ ${getWeatherAdvice(temp, weatherCode, userName)}`;
 
   } catch (error) {
     console.error("Error al obtener clima:", error);
-    return `⚠️ ${userName}, hubo un problema al conectar con el servicio de clima. Por favor, intenta nuevamente.`;
+    
+    // Provide more specific error messages
+    if (error.name === 'TypeError' && error.message.includes('fetch')) {
+      return `⚠️ ${userName}, no pude conectarme al servicio de clima. Por favor, verifica tu conexión a internet.`;
+    } else if (error.message.includes('JSON')) {
+      return `⚠️ ${userName}, recibí una respuesta inválida del servicio de clima. Intenta nuevamente en unos momentos.`;
+    }
+    
+    return `⚠️ ${userName}, hubo un problema al obtener el clima. Por favor, intenta nuevamente.`;
   }
 };
 
@@ -107,7 +121,9 @@ const getWindDirection = (degrees) => {
     "Norte", "Noreste", "Este", "Sureste",
     "Sur", "Suroeste", "Oeste", "Noroeste"
   ];
-  const index = Math.round(degrees / 45) % 8;
+  // Normalize degrees to 0-359 range
+  const normalizedDegrees = ((degrees % 360) + 360) % 360;
+  const index = Math.round(normalizedDegrees / 45) % 8;
   return directions[index];
 };
 
